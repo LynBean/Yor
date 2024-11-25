@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.typesafe.config.Config;
 
 import io.github.lynbean.lynbot.core.BotCore;
+import io.github.lynbean.lynbot.core.BotCore.BotCoreBuilder;
 import io.github.lynbean.lynbot.database.HoconManager;
 import io.github.lynbean.lynbot.database.MongoManager;
 import lombok.Getter;
@@ -27,9 +28,8 @@ public class Bot {
 
     private @Getter static MongoManager mongoManager;
     private static HoconManager hoconManager;
-    private static BotCore botCore;
 
-    private static final GatewayIntent[] GATEWAYS = {
+    private static final List<GatewayIntent> GATEWAYS = List.of(
         GatewayIntent.DIRECT_MESSAGES,
         GatewayIntent.DIRECT_MESSAGE_REACTIONS,
         GatewayIntent.DIRECT_MESSAGE_TYPING,
@@ -43,10 +43,10 @@ public class Bot {
         GatewayIntent.GUILD_VOICE_STATES,
         GatewayIntent.GUILD_WEBHOOKS,
         GatewayIntent.MESSAGE_CONTENT,
-        GatewayIntent.SCHEDULED_EVENTS,
-    };
+        GatewayIntent.SCHEDULED_EVENTS
+    );
 
-    private static final CacheFlag[] CACHE_FLAGS = {
+    private static final List<CacheFlag> CACHE_FLAGS = List.of(
         CacheFlag.ACTIVITY,
         CacheFlag.CLIENT_STATUS,
         CacheFlag.EMOJI,
@@ -56,8 +56,8 @@ public class Bot {
         CacheFlag.ROLE_TAGS,
         CacheFlag.SCHEDULED_EVENTS,
         CacheFlag.STICKER,
-        CacheFlag.VOICE_STATE,
-    };
+        CacheFlag.VOICE_STATE
+    );
 
     public static void main(String[] args) {
         createConfigFile();
@@ -69,18 +69,14 @@ public class Bot {
 
         mongoManager.addCodecPackages("io.github.lynbean.lynbot.database.pojo");
 
-        botCore = BotCore.builder()
-            .prefixes(getConfig().getStringList("bot.prefixes"))
-            .cogsPackage(List.of("io.github.lynbean.lynbot.cogs"))
-            .mainBotToken(getConfig().getString("bot.token"))
-            .subBotTokens(getConfig().getStringList("bot.sub_tokens"))
-            .gateways(GATEWAYS)
-            .cacheFlags(CACHE_FLAGS)
-            .chunkingFilter(ChunkingFilter.ALL)
-            .memberCachePolicy(MemberCachePolicy.ALL)
+        new BotCoreBuilder(getConfig().getString("bot.token"))
+            .setPrefixes(getConfig().getStringList("bot.prefixes"))
+            .appendSubBotTokens(getConfig().getStringList("bot.sub_tokens"))
+            .appendGatewayIntents(GATEWAYS)
+            .appendCacheFlags(CACHE_FLAGS)
+            .setChunkingFilter(ChunkingFilter.ALL)
+            .setMemberCachePolicy(MemberCachePolicy.ALL)
             .build();
-
-        botCore.run();
     }
 
     private static void createConfigFile() {
