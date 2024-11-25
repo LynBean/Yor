@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import io.github.lynbean.lynbot.core.commands.processor.CommandProcessor;
+import io.github.lynbean.lynbot.core.command.processor.CommandProcessor;
 import io.github.lynbean.lynbot.core.thread.ThreadController;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
