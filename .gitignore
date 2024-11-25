@@ -69,3 +69,5 @@ dependency-reduced-pom.xml
 
 # Just some random stuff
 *data
+config
+cogs
