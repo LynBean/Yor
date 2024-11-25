@@ -5,13 +5,13 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.lynbean</groupId>
-  <artifactId>LynBot</artifactId>
-  <version>Snapshot</version>
+  <artifactId>lynbot</artifactId>
+  <version>SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>LynBot</name>
   <description>I am Lyn</description>
-  <url>https://github.com/LynBean/LynBot</url>
+  <url>https://github.com/LynBot-the-Discord-Bot/LynBot</url>
 
   <properties>
 
@@ -194,8 +194,25 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.1.1</version>
+      </plugin>
+
     </plugins>
 
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/LynBot-the-Discord-Bot/LynBot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </distributionManagement>
 
 </project>

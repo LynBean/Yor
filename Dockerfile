@@ -1,5 +1,5 @@
 # LynBot Dockerfile
-FROM maven:3.8.5-openjdk-17 AS builder
+FROM maven:3.8-openjdk-18 AS builder
 
 ADD . /lynbot/
 WORKDIR /lynbot
